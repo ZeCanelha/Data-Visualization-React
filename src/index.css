@@ -1,0 +1,18 @@
+.svg-container {
+  border: 1px solid rgb(211, 167, 24);
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges; /* Round any decimal pixels so it'll render nicely */
+}
+
+#root {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
