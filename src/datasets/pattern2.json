@@ -1,0 +1,11 @@
+{
+  "pattern_id": 1231234,
+  "name": "pattern123",
+  "description": "Walking in sand",
+  "keyframes": [
+    {
+      "time": 0,
+      "intensity": 0
+    }
+  ]
+}
