@@ -3,7 +3,7 @@ import * as d3 from "d3";
 
 const margin = { top: 20, right: 20, left: 35, bottom: 20 };
 let theobject = null;
-export default class LineChart extends React.Component {
+export default class Keyframes extends React.Component {
   constructor(props) {
     super(props);
     theobject = this;

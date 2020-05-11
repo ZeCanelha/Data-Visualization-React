@@ -4,24 +4,24 @@
   "description": "Walking in sand",
   "keyframes": [
     {
-      "time": 1,
-      "intensity": 1
+      "time": 0,
+      "intensity": 0
     },
     {
-      "time": 25,
-      "intensity": 45
+      "time": 10,
+      "intensity": 50
     },
     {
       "time": 30,
-      "intensity": 52
+      "intensity": 25
     },
     {
       "time": 35,
-      "intensity": 59
+      "intensity": 68
     },
     {
       "time": 40,
-      "intensity": 70
+      "intensity": 15
     },
     {
       "time": 50,
