@@ -24,8 +24,20 @@
       "intensity": 15
     },
     {
-      "time": 50,
+      "time": 100,
       "intensity": 85
+    },
+    {
+      "time": 150,
+      "intensity": 40
+    },
+    {
+      "time": 156,
+      "intensity": 30
+    },
+    {
+      "time": 170,
+      "intensity": 72
     }
   ]
 }
