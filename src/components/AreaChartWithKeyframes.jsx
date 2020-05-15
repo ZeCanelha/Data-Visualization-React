@@ -31,8 +31,7 @@ export default class AreaChartWithKeyframes extends React.Component {
 
   areaGenerator = d3.area().curve(curveMonotoneX);
 
-  drawKeyframe(coords) {
-    let svg = d3.select(this.refs.area);
+  addDatapoint(coords) {
     let newPoints = {
       time: Math.round(this.xScale.invert(coords[0])),
       intensity: Math.round(this.yScale.invert(coords[1])),
@@ -41,37 +40,35 @@ export default class AreaChartWithKeyframes extends React.Component {
     // update datapoints in time
 
     let datapoints = this.state.datapoints;
-    let needToUpdate = 0;
-    let index = 0;
+    console.log(datapoints);
 
-    for (index; index < datapoints.length; index++) {
-      if (datapoints[index].time < newPoints.time) continue;
-      else {
-        needToUpdate = index;
-        break;
-      }
-    }
+    // Bisect function - Returns the insertion point for x in array to maintain sorted order
 
-    if (needToUpdate !== 0) {
-      datapoints.splice(index, 0, newPoints);
-      this.setState({
-        datapoints: update(this.state.datapoints, {
-          datapoints: { $set: datapoints },
-        }),
-      });
-    } else {
-      this.setState({ datapoints: [...this.state.datapoints, newPoints] });
-    }
+    let bisect = d3.bisector((d) => d.time).right;
+    let index = bisect(datapoints, newPoints.time);
 
-    console.log(this.state.datapoints);
+    datapoints.splice(index, 0, newPoints);
+    this.setState({
+      datapoints: update(this.state.datapoints, {
+        datapoints: { $set: datapoints },
+      }),
+    });
 
+    // TODO assign the attributes to an object
+  }
+
+  drawKeyFrame() {
+    let svg = d3.select(this.refs.area);
     svg
       .selectAll("circle")
       .data(this.state.datapoints)
-      .enter()
-      .append("circle")
-      .attr("cx", this.xScale(newPoints.time))
-      .attr("cy", this.yScale(newPoints.intensity))
+      .join(
+        (enter) => enter.append("circle"),
+        (update) => update,
+        (exit) => exit.remove()
+      )
+      .attr("cx", (d) => this.xScale(d.time))
+      .attr("cy", (d) => this.yScale(d.intensity))
       .attr("r", 4)
       .attr("fill", "orange")
       .on("mouseover", this.handleMouseOver)
@@ -86,11 +83,7 @@ export default class AreaChartWithKeyframes extends React.Component {
   }
 
   handleMouseOver(d, i) {
-    d3.select(this)
-      .attr("fill", "orange")
-      .attr("r", "8")
-      .append("title")
-      .text(d.time + ", " + d.intensity);
+    d3.select(this).attr("fill", "orange").attr("r", "8");
   }
 
   handleMouseOut(d, i) {
@@ -121,6 +114,16 @@ export default class AreaChartWithKeyframes extends React.Component {
         },
       },
     });
+
+    console.log(
+      newState.datapoints.sort(function (a, b) {
+        return a.time - b.time;
+      })
+    );
+    // newState.datapoints.sort(function (a, b) {
+    //   return a.time - b.time;
+    // });
+
     this.setState(newState);
   }
 
@@ -162,13 +165,17 @@ export default class AreaChartWithKeyframes extends React.Component {
 
     d3.select(this.refs.area).on("dblclick", function () {
       let coords = d3.mouse(this);
-      theobject.drawKeyframe(coords);
+      theobject.addDatapoint(coords);
     });
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.datapoints !== this.state.datapoints) {
       console.log("A change in state occured");
+      console.log(this.state.datapoints);
+
+      this.drawKeyFrame();
+
       const area = this.areaGenerator(this.state.datapoints);
 
       this.setState({ area: area });
