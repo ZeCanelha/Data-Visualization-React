@@ -11,8 +11,10 @@ import "./index.css";
 // import AreaChart from "./components/AreaChart";
 
 import AreaChartKeyframes from "./components/AreaChartWithKeyframes";
-const width = 600;
-const height = 450;
+import DropArea from "./components/Drop";
+
+const width = 500;
+const height = 350;
 
 class App extends React.Component {
   render() {
@@ -29,6 +31,7 @@ class App extends React.Component {
         {/* <DraggingKeyframes width={width} height={height}></DraggingKeyframes> */}
         {/* <AreaChart width={width} height={height}></AreaChart> */}
         <AreaChartKeyframes width={width} height={height}></AreaChartKeyframes>
+        <DropArea></DropArea>
       </>
     );
   }

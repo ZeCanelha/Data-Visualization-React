@@ -21,3 +21,21 @@
   align-items: center;
   flex-direction: column;
 }
+
+.drop-area {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  width: 50vw;
+  height: 15vh;
+  border: 1px solid black;
+}
+
+.droped-pattern {
+  display: flex;
+  justify-content: flex-start;
+
+  width: 25%;
+  height: 100%;
+  background-color: red;
+}

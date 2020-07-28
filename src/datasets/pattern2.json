@@ -5,7 +5,15 @@
   "keyframes": [
     {
       "time": 0,
-      "intensity": 0
+      "intensity": 50
+    },
+    {
+      "time": 175,
+      "intensity": 50
+    },
+    {
+      "time": 350,
+      "intensity": 50
     }
   ]
 }

@@ -15,8 +15,14 @@ export default class AreaChartWithKeyframes extends React.Component {
       datapoints: null,
       area: null,
     };
+
+    this.handleSVGDragStart = this.handleSVGDragStart.bind(this);
     quickfix = this;
   }
+
+  //  Handle Dragable SVG function
+
+  handleSVGDragStart(event) {}
 
   // Scales and axis
   xScale = d3
@@ -57,11 +63,11 @@ export default class AreaChartWithKeyframes extends React.Component {
     // TODO assign the attributes to an object
   }
 
-  drawKeyFrame() {
+  drawKeyFrame(data) {
     let svg = d3.select(this.refs.area);
     svg
       .selectAll("circle")
-      .data(this.state.datapoints)
+      .data(data)
       .join(
         (enter) => enter.append("circle"),
         (update) => update,
@@ -134,7 +140,7 @@ export default class AreaChartWithKeyframes extends React.Component {
     this.setState({ datapoints: data });
 
     // Set xScale domain according to the time defined in the config file
-    this.xScale.domain([0, 350]);
+    this.xScale.domain([0, d3.max(data, (d) => d.time)]);
 
     // Y Scale is a fixed scale from 0 to 100%
     this.yScale.domain([100, 0]);
@@ -153,16 +159,6 @@ export default class AreaChartWithKeyframes extends React.Component {
 
     // Set the keyframes
 
-    d3.select(this.refs.area)
-      .selectAll("circle")
-      .data(data)
-      .enter()
-      .append("circle")
-      .attr("fill", "orange")
-      .attr("cx", (d) => this.xScale(d.time))
-      .attr("cy", (d) => this.yScale(d.intensity))
-      .attr("r", 4);
-
     d3.select(this.refs.area).on("dblclick", function () {
       let coords = d3.mouse(this);
       theobject.addDatapoint(coords);
@@ -174,36 +170,36 @@ export default class AreaChartWithKeyframes extends React.Component {
       console.log("A change in state occured");
       console.log(this.state.datapoints);
 
-      this.drawKeyFrame();
-
+      this.drawKeyFrame(this.state.datapoints);
       const area = this.areaGenerator(this.state.datapoints);
-
       this.setState({ area: area });
     }
   }
 
   render() {
     return (
-      <svg
-        className="svg-container"
-        width={this.props.width}
-        height={this.props.height}
-        ref={"area"}
-      >
-        <path d={this.state.area} fill="#69b3a2" stroke={"orange"}></path>
-        <g>
-          <g
-            ref={"xAxis"}
-            transform={
-              "translate(" + [0, this.props.height - margin.bottom] + ")"
-            }
-          ></g>
-          <g
-            ref={"yAxis"}
-            transform={"translate(" + [margin.left, 0] + ")"}
-          ></g>
-        </g>
-      </svg>
+      <div draggable="true" onDragStart={this.handleSVGDragStart}>
+        <svg
+          className="svg-container"
+          width={this.props.width}
+          height={this.props.height}
+          ref={"area"}
+        >
+          <path d={this.state.area} fill="#69b3a2" stroke={"orange"}></path>
+          <g>
+            <g
+              ref={"xAxis"}
+              transform={
+                "translate(" + [0, this.props.height - margin.bottom] + ")"
+              }
+            ></g>
+            <g
+              ref={"yAxis"}
+              transform={"translate(" + [margin.left, 0] + ")"}
+            ></g>
+          </g>
+        </svg>
+      </div>
     );
   }
 }
