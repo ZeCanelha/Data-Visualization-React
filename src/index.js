@@ -9,8 +9,9 @@ import "./index.css";
 // import InteractiveLineChart from "./components/InteractiveLineChart";
 // import DraggingKeyframes from "./components/DraggingKeyframes";
 // import AreaChart from "./components/AreaChart";
+// import AreaChartKeyframes from "./components/AreaChartWithKeyframes";
 
-import AreaChartKeyframes from "./components/AreaChartWithKeyframes";
+import Chart from "./components/Pattern/Chart";
 import DropArea from "./components/Drop";
 
 const width = 500;
@@ -30,7 +31,8 @@ class App extends React.Component {
         ></InteractiveLineChart> */}
         {/* <DraggingKeyframes width={width} height={height}></DraggingKeyframes> */}
         {/* <AreaChart width={width} height={height}></AreaChart> */}
-        <AreaChartKeyframes width={width} height={height}></AreaChartKeyframes>
+        {/* <AreaChartKeyframes width={width} height={height}></AreaChartKeyframes> */}
+        <Chart width={width} height={height}></Chart>
         <DropArea></DropArea>
       </>
     );

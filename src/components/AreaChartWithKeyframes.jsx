@@ -14,6 +14,8 @@ export default class AreaChartWithKeyframes extends React.Component {
     this.state = {
       datapoints: null,
       area: null,
+      xScale: null,
+      yScale: null,
     };
 
     this.handleSVGDragStart = this.handleSVGDragStart.bind(this);
